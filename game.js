@@ -1,11 +1,30 @@
 'use strict'
 
 var game = {}
+game.settings = {
+  mute: false
+}
 game.words = []
 game.activeWord
 game.board = document.body
 game.init = function() {
-  createWord('loading')
+  createWord('loading', mainMenu)
+}
+
+function mainMenu() {
+  // Sound setting
+  createSoundToggle(false)
+}
+
+function createSoundToggle(toggle=true) {
+  if (toggle) {
+    game.settings.mute = !game.settings.mute
+  }
+  if (game.settings.mute) {
+    createWord('Unmute', createSoundToggle)
+  } else {
+    createWord('Mute', createSoundToggle)
+  }
 }
 
 function removeClass(el, names) {
@@ -27,6 +46,7 @@ function addClass(el, names) {
 
 function hasTyped(wordObj) {
   console.log(`'${wordObj.word}' has been typed`)
+  var cb = wordObj.cb
   wordObj.el.remove()
   game.activeWord = null
   game.words.splice(game.words.indexOf(wordObj), 1)
@@ -36,6 +56,9 @@ function hasTyped(wordObj) {
       removeClass(el, ['grey', 'black'])
     })
   })
+  if (cb) {
+    cb()
+  }
 }
 
 function createWord(word, cb) {
@@ -46,6 +69,7 @@ function createWord(word, cb) {
   el.innerHTML = `<p class="word">${spans}</p>`
   el = el.children[0]
   game.words.push({
+    cb,
     word,
     el,
     index: 0
