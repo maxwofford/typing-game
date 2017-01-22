@@ -8,22 +8,50 @@ game.words = []
 game.activeWord
 game.board = document.body
 game.init = function() {
-  createWord('loading', mainMenu)
+  var hintIds = []
+  hintIds.push(setTimeout(() => {
+    game.notify('This is a typing game')
+  }, 50000))
+
+  hintIds.push(setTimeout(() => {
+    game.notify('Type to play the game')
+  }, 10000))
+
+  hintIds.push(setTimeout(() => {
+    game.notify("Try pressing 'L'")
+  }, 50000))
+  createWord('loading', () => {
+    mainMenu()
+    hintIds.forEach(id => {
+      clearTimeout(id)
+    })
+  })
+}
+game.notify = function(msg) {
+  document.querySelectorAll('.notification').forEach(el => {
+    el.remove()
+  })
+  var el = document.createElement('div')
+  el.className = 'notification'
+  el.innerHTML = msg
+  document.body.append(el)
 }
 
 function mainMenu() {
   // Sound setting
   createSoundToggle(false)
+  createWord('play')
 }
 
 function createSoundToggle(toggle=true) {
   if (toggle) {
     game.settings.mute = !game.settings.mute
+    game.notify(game.settings.mute ? 'Sound off' : 'Sound on')
   }
   if (game.settings.mute) {
-    createWord('Unmute', createSoundToggle)
+    createWord('unmute', createSoundToggle)
   } else {
-    createWord('Mute', createSoundToggle)
+    createWord('mute', createSoundToggle)
   }
 }
 

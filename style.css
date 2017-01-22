@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 body, html {
   padding: 0;
   margin: 0;
@@ -10,12 +15,21 @@ body {
   background: black;
   color: white;
   font-family: 'Roboto', sans-serif;
-  font-size: 64px;
+  font-size: 5em;
   /* alignment */
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.notification {
+  text-transform: lowercase;
+}
+
+.word {
+  animation: fadein 0.4s;
+  text-transform: uppercase;
 }
 
 .letter {
@@ -28,4 +42,19 @@ body {
 
 .black {
   color: #222;
+}
+
+.notification {
+  animation: fadein 5s;
+  /* theme */
+  color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 0.5em;
+  font-style: italic;
+  /* positioning */
+  padding: 2em;
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  width: 100%;
 }
