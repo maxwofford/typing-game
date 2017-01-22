@@ -16,7 +16,10 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  animation-duration: 0.2s;
+}
+
+.letter {
+  transition: all 0.2s ease;
 }
 
 .grey {
